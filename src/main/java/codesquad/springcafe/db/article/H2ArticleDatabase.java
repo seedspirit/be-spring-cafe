@@ -90,7 +90,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
 
     @Override
     public int getTotalArticleNumber() {
-        return jdbcTemplate.queryForObject("select count(*) from articles", Integer.class);
+        return jdbcTemplate.queryForObject("select count(*) from articles where isDeleted = false;", Integer.class);
     }
 
     @Override
