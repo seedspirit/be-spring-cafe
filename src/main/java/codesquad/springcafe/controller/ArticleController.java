@@ -7,8 +7,11 @@ import codesquad.springcafe.model.article.Article;
 import codesquad.springcafe.model.article.dto.ArticleCreationDto;
 import codesquad.springcafe.model.article.dto.ArticleModificationDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +76,15 @@ public class ArticleController {
         }
         articleDatabase.update(sequence, modificationData);
         return "redirect:/articles/detail/" + sequence;
+    }
+
+    @DeleteMapping("/update/{sequence}")
+    public ResponseEntity<?> deleteArticle(@PathVariable long sequence, HttpSession session, HttpServletResponse response) {
+        if(isUnauthUserForModification(sequence, session)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근할 수 없는 리소스입니다");
+        }
+        articleDatabase.delete(sequence);
+        return ResponseEntity.ok("/");
     }
 
     private boolean isUnauthUserForModification(long articleSequence, HttpSession session) {
