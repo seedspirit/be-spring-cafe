@@ -41,10 +41,15 @@ public class ArticleController {
 
 
     @GetMapping("/detail/{sequence}")
-    public String loadArticleContent(@PathVariable long sequence, Model model) {
+    public String loadArticleContent(@PathVariable long sequence, Model model, HttpSession session) {
         ArticleProfileDto articleProfile = articleDatabase.findArticleBySequence(sequence)
                 .orElseThrow(ResourceNotFoundException::new);
+
+        String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
+        boolean isAuthor = userId.equals(articleProfile.getUserId());
+
         model.addAttribute("article", articleProfile);
+        model.addAttribute("isAuthor", isAuthor);
         return "article/show";
     }
 
