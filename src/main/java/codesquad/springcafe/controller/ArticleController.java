@@ -49,7 +49,10 @@ public class ArticleController {
     }
 
     @GetMapping("/update/{sequence}")
-    public String getArticleUpdatePage(@PathVariable long sequence, Model model) {
+    public String getArticleUpdatePage(@PathVariable long sequence, Model model, HttpSession session) {
+        if(isUnauthUserForModification(sequence, session)){
+            throw new AccessNotAllowedException();
+        }
         model.addAttribute("sequence", sequence);
         return "article/updateForm";
     }
@@ -58,15 +61,20 @@ public class ArticleController {
     public String updateArticle(
             @PathVariable long sequence,
             HttpSession session,
-            @ModelAttribute ArticleModificationDto modificationData) {
-        ArticleProfileDto articleProfile = articleDatabase.findArticleBySequence(sequence)
-                .orElseThrow(ResourceNotFoundException::new);
-
-        String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
-        if(!userId.equals(articleProfile.getUserId())){
+            @ModelAttribute ArticleModificationDto modificationData)
+    {
+        if(isUnauthUserForModification(sequence, session)){
             throw new AccessNotAllowedException();
         }
         articleDatabase.update(sequence, modificationData);
         return "redirect:/articles/detail/" + sequence;
+    }
+
+    private boolean isUnauthUserForModification(long articleSequence, HttpSession session) {
+        ArticleProfileDto articleProfile = articleDatabase.findArticleBySequence(articleSequence)
+                .orElseThrow(ResourceNotFoundException::new);
+
+        String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
+        return !userId.equals(articleProfile.getUserId());
     }
 }
