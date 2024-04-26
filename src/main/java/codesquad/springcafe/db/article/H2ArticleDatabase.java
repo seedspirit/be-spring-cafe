@@ -45,6 +45,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
                 from articles a
                 left outer join users u
                 on a.writer = u.userId
+                where a.isDeleted = false;
                 """;
         return jdbcTemplate.query(
                 sql, (rs, rowNum) -> new ArticleProfileDto(
@@ -65,7 +66,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
                 from articles a
                 left outer join users u
                 on a.writer = u.userId
-                where sequence = ?
+                where sequence = ? and a.isDeleted = false;
                 """;
         return jdbcTemplate.query(
                 sql, new Object[]{sequence}, rs -> {
@@ -92,4 +93,9 @@ public class H2ArticleDatabase implements ArticleDatabase {
         return jdbcTemplate.queryForObject("select count(*) from articles", Integer.class);
     }
 
+    @Override
+    public void delete(long sequence) {
+        String sql = "update articles set isDeleted = true where sequence = ?";
+        jdbcTemplate.update(sql, sequence);
+    }
 }

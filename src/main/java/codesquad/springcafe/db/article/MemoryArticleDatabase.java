@@ -35,8 +35,12 @@ public class MemoryArticleDatabase implements ArticleDatabase {
         articleDatabase.clear();
     }
 
-
     public int getTotalArticleNumber(){
         return articleDatabase.size();
+    }
+
+    @Override
+    public void delete(long sequence) {
+
     }
 }

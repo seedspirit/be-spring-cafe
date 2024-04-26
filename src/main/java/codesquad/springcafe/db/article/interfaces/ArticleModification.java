@@ -7,4 +7,5 @@ public interface ArticleModification {
     public void addArticle(Article article);
     public void update(long sequence, ArticleModificationDto modificationData);
     public void clearDatabase();
+    public void delete(long sequence);
 }
