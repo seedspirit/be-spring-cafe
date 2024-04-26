@@ -18,5 +18,8 @@ CREATE TABLE articles (
     title VARCHAR(50) NOT NULL,
     publishTime TIMESTAMP NOT NULL,
     content VARCHAR(10000) NOT NULL,
+    isDeleted BOOLEAN NOT NULL,
     FOREIGN KEY (writer) REFERENCES users(userId)
 );
+
+ALTER TABLE articles ALTER COLUMN isDeleted SET DEFAULT false;
