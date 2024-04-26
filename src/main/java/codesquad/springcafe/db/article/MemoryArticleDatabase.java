@@ -1,6 +1,7 @@
 package codesquad.springcafe.db.article;
 
 import codesquad.springcafe.model.article.Article;
+import codesquad.springcafe.model.article.dto.ArticleModificationDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,8 @@ public class MemoryArticleDatabase implements ArticleDatabase {
     }
 
     @Override
-    public void update(long sequence, Article updatedArticle) {
-        IntStream.range(0, articleDatabase.size())
-                .filter(i -> articleDatabase.get(i).getSequence() == sequence)
-                .findFirst()
-                .ifPresent(i -> articleDatabase.set(i, updatedArticle));
+    public void update(long sequence, ArticleModificationDto updatedArticle) {
+        return;
     }
 
     public List<ArticleProfileDto> findAllArticles(){

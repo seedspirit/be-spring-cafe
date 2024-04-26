@@ -39,16 +39,18 @@ class ArticleControllerTest {
         long sequence1 = 1L;
         String title1 = "title1";
         String content1 = "content1";
+        String writer1 = "writer1";
         String writerNickname1 = "writerNickname1";
         LocalDateTime publishTime1 = LocalDateTime.now();
-        ArticleProfileDto article1 = new ArticleProfileDto(sequence1, publishTime1, writerNickname1, title1, content1);
+        ArticleProfileDto article1 = new ArticleProfileDto(sequence1, publishTime1, writer1, writerNickname1, title1, content1);
 
         long sequence2 = 2L;
         String title2 = "title2";
         String content2 = "content2";
+        String writer2 = "writer2";
         String writerNickname2 = "writerNickname2";
         LocalDateTime publishTime2 = LocalDateTime.now();
-        ArticleProfileDto article2 = new ArticleProfileDto(sequence2, publishTime2, writerNickname2, title2, content2);
+        ArticleProfileDto article2 = new ArticleProfileDto(sequence2, publishTime2, writer2, writerNickname2, title2, content2);
 
         Article article = new Article(publishTime1, title1, content1);
         List<ArticleProfileDto> articles = Arrays.asList(article1, article2);

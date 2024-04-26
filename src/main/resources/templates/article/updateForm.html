@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="kr">
+{{>layout/header}}
+<link href="/css/article/form.css" rel="stylesheet">
+<body>
+<div class="background">
+    {{>layout/navbar}}
+    <div class="container" id="main">
+        <header class="post-header">
+            <p class="title">게시물 수정</p>
+        </header>
+        <form class="submit-write" method="post" action="/articles/update/{{sequence}}">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="text-box">
+                <div class="comment-writer-container">
+                    <p class="post-title">제목</p>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="title" name="title" placeholder="제목을 입력하세요"></textarea>
+                </div>
+            </div>
+
+            <div class="text-box">
+                <div class="comment-writer-container">
+                    <p class="post-content">내용</p>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
+                </div>
+            </div>
+            <div class="post-btn-container">
+                <input class="post-write-btn" type="submit" value="수정하기"/>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

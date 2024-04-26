@@ -1,6 +1,7 @@
 package codesquad.springcafe.db.article;
 
 import codesquad.springcafe.model.article.Article;
+import codesquad.springcafe.model.article.dto.ArticleModificationDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -28,19 +29,19 @@ public class H2ArticleDatabase implements ArticleDatabase {
     }
 
     @Override
-    public void update(long sequence, Article updatedArticle) {
-        String sql = "update articles set title=?, content=? where sequence=?";
+    public void update(long sequence, ArticleModificationDto modificationData) {
+        String sql = "update articles set title=?, content=?  where sequence=?";
         jdbcTemplate.update(sql,
-                updatedArticle.getTitle(),
-                updatedArticle.getContent(),
-                updatedArticle.getSequence()
+                modificationData.getTitle(),
+                modificationData.getContent(),
+                sequence
         );
     }
 
     @Override
     public List<ArticleProfileDto> findAllArticles() {
         String sql = """
-                select sequence, publishtime, u.nickname as writerNickname, title, content
+                select sequence, publishtime, writer as userId, u.nickname as writerNickname, title, content
                 from articles a
                 left outer join users u
                 on a.writer = u.userId
@@ -49,6 +50,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
                 sql, (rs, rowNum) -> new ArticleProfileDto(
                         rs.getLong("sequence"),
                         rs.getTimestamp("publishtime").toLocalDateTime(),
+                        rs.getString("userId"),
                         rs.getString("writernickname"),
                         rs.getString("title"),
                         rs.getString("content")
@@ -59,7 +61,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
     @Override
     public Optional<ArticleProfileDto> findArticleBySequence(long sequence) {
         String sql = """
-                select sequence, publishtime, u.nickname as writerNickname, title, content
+                select sequence, publishtime, writer as userId, u.nickname as writerNickname, title, content
                 from articles a
                 left outer join users u
                 on a.writer = u.userId
@@ -71,6 +73,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
                         return Optional.of(new ArticleProfileDto(
                                 sequence,
                                 rs.getTimestamp("publishtime").toLocalDateTime(),
+                                rs.getString("userId"),
                                 rs.getString("writernickname"),
                                 rs.getString("title"),
                                 rs.getString("content")));
