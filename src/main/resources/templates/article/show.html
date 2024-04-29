@@ -57,10 +57,20 @@
                         </div>
                     </div>
                     {{#isAuthor}}
-                    <div class="post-btn-container">
-                        <a class="post-write-btn btn btn-primary pull-right"
-                           href="/articles/update/{{article.sequence}}" role="button">게시물 수정하기</a>
-                    </div>
+                    <ul style="display: flex; list-style none; float: right; padding: 0">
+                        <li style="margin-right: 10px; margin-top: 10px">
+                            <div class="post-btn-container">
+                                <button class="active black-component"
+                                        onclick="requestDelete('{{article.sequence}}')">삭제하기</button>
+                            </div>
+                        </li>
+                        <li style="margin-right: 10px; margin-top: 10px">
+                            <div class="post-btn-container">
+                                <button class="active black-component"
+                                        onclick="location.href ='/articles/update/{{article.sequence}}'">수정하기</button>
+                            </div>
+                        </li>
+                    </ul>
                     {{/isAuthor}}
                 </div>
             </div>
@@ -68,4 +78,21 @@
     </div>
 </div>
 </body>
+<script>
+    function requestDelete(sequence) {
+        let httpRequest = new XMLHttpRequest();
+        httpRequest.open('DELETE', '/articles/update/'+ sequence, true);
+        httpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    alert("게시물이 성공적으로 삭제되었습니다")
+                    window.location.href = httpRequest.responseText;
+                } else {
+                    alert("삭제가 실패했습니다")
+                }
+            }
+        }
+        httpRequest.send();
+    }
+</script>
 </html>
