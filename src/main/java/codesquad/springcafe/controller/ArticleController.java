@@ -87,7 +87,15 @@ public class ArticleController {
         if(isUnauthUserForModification(sequence, session)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근할 수 없는 리소스입니다");
         }
+
         articleDatabase.delete(sequence);
+
+        // 캐시된 리소스를 사용하지 못하도록 요청
+        response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+
         return ResponseEntity.ok("/");
     }
 
