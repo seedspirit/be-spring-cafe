@@ -1,12 +1,14 @@
 package codesquad.springcafe.controller;
 
 import codesquad.springcafe.db.article.ArticleDatabase;
+import codesquad.springcafe.db.article.CommentDatabase;
 import codesquad.springcafe.exceptions.AccessNotAllowedException;
 import codesquad.springcafe.exceptions.ResourceNotFoundException;
 import codesquad.springcafe.model.article.Article;
 import codesquad.springcafe.model.article.dto.ArticleCreationDto;
 import codesquad.springcafe.model.article.dto.ArticleModificationDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
+import codesquad.springcafe.model.comment.CommentPreviewDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static codesquad.springcafe.controller.LoginController.LOGIN_SESSION_NAME;
 
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
     private final ArticleDatabase articleDatabase;
+    private final CommentDatabase commentDatabase;
 
     @Autowired
-    public ArticleController(ArticleDatabase articleDatabase){
+    public ArticleController(ArticleDatabase articleDatabase, CommentDatabase commentDatabase){
         this.articleDatabase = articleDatabase;
+        this.commentDatabase = commentDatabase;
     }
 
     @GetMapping("/add")
@@ -52,10 +58,14 @@ public class ArticleController {
             throw new ResourceNotFoundException();
         }
 
+        List<CommentPreviewDto> comments = commentDatabase.getCommentsOfArticle(sequence);
+
         String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
         boolean isAuthor = userId.equals(articleProfile.getUserId());
 
         model.addAttribute("article", articleProfile);
+        model.addAttribute("comments", comments);
+        model.addAttribute("commentsAmount", comments.size());
         model.addAttribute("isAuthor", isAuthor);
         return "article/show";
     }
