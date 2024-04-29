@@ -1,7 +1,9 @@
 package codesquad.springcafe;
 
 import codesquad.springcafe.db.article.ArticleDatabase;
+import codesquad.springcafe.db.article.CommentDatabase;
 import codesquad.springcafe.db.article.H2ArticleDatabase;
+import codesquad.springcafe.db.article.H2CommentDatabase;
 import codesquad.springcafe.db.user.H2UserDatabase;
 import codesquad.springcafe.db.user.UserDatabase;
 import codesquad.springcafe.interceptor.LoginCheckInterceptor;
@@ -29,6 +31,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public ArticleDatabase articleDatabase() {
         return new H2ArticleDatabase(dataSource);
+    }
+
+    @Bean
+    public CommentDatabase commentDatabase() {
+        return new H2CommentDatabase(dataSource);
     }
 
     @Override

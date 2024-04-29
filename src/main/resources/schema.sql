@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS users;
 
