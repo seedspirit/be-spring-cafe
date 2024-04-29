@@ -10,15 +10,17 @@ public class ArticleProfileDto {
     private final String writerNickname;
     private final String title;
     private final String content;
+    private final boolean isDeleted;
     private final String TIME_FORMATTING_PATTERN = "yyyy년 MM월 dd일 HH:mm";
 
-    public ArticleProfileDto(long sequence, LocalDateTime publishTime, String userId, String writerNickname, String title, String content) {
+    public ArticleProfileDto(long sequence, LocalDateTime publishTime, String userId, String writerNickname, String title, String content, boolean isDeleted) {
         this.sequence = sequence;
         this.publishTime = publishTime;
         this.userId = userId;
         this.writerNickname = writerNickname;
         this.title = title;
         this.content = content;
+        this.isDeleted = isDeleted;
     }
 
     public long getSequence() {
@@ -47,5 +49,9 @@ public class ArticleProfileDto {
 
     public String getContent() {
         return content;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 }

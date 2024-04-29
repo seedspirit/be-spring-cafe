@@ -3,6 +3,7 @@ package codesquad.springcafe.controller;
 import codesquad.springcafe.WebConfig;
 import codesquad.springcafe.db.article.ArticleDatabase;
 import codesquad.springcafe.model.article.Article;
+import codesquad.springcafe.model.article.dto.ArticlePreviewDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,19 +42,23 @@ class ArticleControllerTest {
         String content1 = "content1";
         String writer1 = "writer1";
         String writerNickname1 = "writerNickname1";
+        boolean isDeleted1 = false;
         LocalDateTime publishTime1 = LocalDateTime.now();
-        ArticleProfileDto article1 = new ArticleProfileDto(sequence1, publishTime1, writer1, writerNickname1, title1, content1);
+        ArticleProfileDto article1 = new ArticleProfileDto(sequence1, publishTime1, writer1, writerNickname1, title1, content1, isDeleted1);
 
         long sequence2 = 2L;
         String title2 = "title2";
         String content2 = "content2";
         String writer2 = "writer2";
         String writerNickname2 = "writerNickname2";
+        boolean isDeleted2 = false;
         LocalDateTime publishTime2 = LocalDateTime.now();
-        ArticleProfileDto article2 = new ArticleProfileDto(sequence2, publishTime2, writer2, writerNickname2, title2, content2);
+        ArticleProfileDto article2 = new ArticleProfileDto(sequence2, publishTime2, writer2, writerNickname2, title2, content2, isDeleted2);
 
         Article article = new Article(publishTime1, title1, content1);
-        List<ArticleProfileDto> articles = Arrays.asList(article1, article2);
+        ArticlePreviewDto previewDto1 = new ArticlePreviewDto(sequence1, publishTime1, writer1, writerNickname1, title1);
+        ArticlePreviewDto previewDto2 = new ArticlePreviewDto(sequence1, publishTime1, writer1, writerNickname1, title1);
+        List<ArticlePreviewDto> articles = Arrays.asList(previewDto1, previewDto2);
 
         willDoNothing().given(articleDatabase).addArticle(article);
         given(articleDatabase.findAllArticles()).willReturn(articles);

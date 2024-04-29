@@ -2,6 +2,7 @@ package codesquad.springcafe.db.article;
 
 import codesquad.springcafe.model.article.Article;
 import codesquad.springcafe.model.article.dto.ArticleModificationDto;
+import codesquad.springcafe.model.article.dto.ArticlePreviewDto;
 import codesquad.springcafe.model.article.dto.ArticleProfileDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -39,7 +40,7 @@ public class H2ArticleDatabase implements ArticleDatabase {
     }
 
     @Override
-    public List<ArticleProfileDto> findAllArticles() {
+    public List<ArticlePreviewDto> findAllArticles() {
         String sql = """
                 select sequence, publishtime, writer as userId, u.nickname as writerNickname, title, content
                 from articles a
@@ -48,13 +49,12 @@ public class H2ArticleDatabase implements ArticleDatabase {
                 where a.isDeleted = false;
                 """;
         return jdbcTemplate.query(
-                sql, (rs, rowNum) -> new ArticleProfileDto(
+                sql, (rs, rowNum) -> new ArticlePreviewDto(
                         rs.getLong("sequence"),
                         rs.getTimestamp("publishtime").toLocalDateTime(),
                         rs.getString("userId"),
                         rs.getString("writernickname"),
-                        rs.getString("title"),
-                        rs.getString("content")
+                        rs.getString("title")
                 )
         );
     }
@@ -62,11 +62,11 @@ public class H2ArticleDatabase implements ArticleDatabase {
     @Override
     public Optional<ArticleProfileDto> findArticleBySequence(long sequence) {
         String sql = """
-                select sequence, publishtime, writer as userId, u.nickname as writerNickname, title, content
+                select sequence, publishtime, writer as userId, u.nickname as writerNickname, title, content, isDeleted
                 from articles a
                 left outer join users u
                 on a.writer = u.userId
-                where sequence = ? and a.isDeleted = false;
+                where sequence = ?;
                 """;
         return jdbcTemplate.query(
                 sql, new Object[]{sequence}, rs -> {
@@ -77,7 +77,8 @@ public class H2ArticleDatabase implements ArticleDatabase {
                                 rs.getString("userId"),
                                 rs.getString("writernickname"),
                                 rs.getString("title"),
-                                rs.getString("content")));
+                                rs.getString("content"),
+                                rs.getBoolean("isDeleted")));
                     }
                     return Optional.empty();
                 });

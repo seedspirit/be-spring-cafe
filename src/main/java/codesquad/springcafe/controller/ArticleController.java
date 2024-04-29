@@ -48,6 +48,10 @@ public class ArticleController {
         ArticleProfileDto articleProfile = articleDatabase.findArticleBySequence(sequence)
                 .orElseThrow(ResourceNotFoundException::new);
 
+        if(articleProfile.isDeleted()){
+            throw new ResourceNotFoundException();
+        }
+
         String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
         boolean isAuthor = userId.equals(articleProfile.getUserId());
 
