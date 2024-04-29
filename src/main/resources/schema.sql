@@ -18,8 +18,17 @@ CREATE TABLE articles (
     title VARCHAR(50) NOT NULL,
     publishTime TIMESTAMP NOT NULL,
     content VARCHAR(10000) NOT NULL,
-    isDeleted BOOLEAN NOT NULL,
+    isDeleted BOOLEAN DEFAULT false NOT NULL,
     FOREIGN KEY (writer) REFERENCES users(userId)
 );
 
-ALTER TABLE articles ALTER COLUMN isDeleted SET DEFAULT false;
+CREATE TABLE comments (
+    sequence BIGINT PRIMARY KEY AUTO_INCREMENT,
+    article_sequence BIGINT NOT NULL, --// article - sequence
+    writer VARCHAR(50) NOT NULL, --// user - userId
+    content VARCHAR(100) NOT NULL,
+    written_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    is_deleted BOOLEAN DEFAULT false NOT NULL,
+    FOREIGN KEY (article_sequence) REFERENCES articles(sequence),
+    FOREIGN KEY (writer) REFERENCES users(userId)
+);
