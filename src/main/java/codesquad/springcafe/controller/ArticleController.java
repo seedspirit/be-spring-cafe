@@ -61,12 +61,16 @@ public class ArticleController {
         List<CommentPreviewDto> comments = commentDatabase.getCommentsOfArticle(sequence);
 
         String userId = (String) session.getAttribute(LOGIN_SESSION_NAME);
-        boolean isAuthor = userId.equals(articleProfile.getUserId());
+        boolean isArticleAuthor = userId.equals(articleProfile.getUserId());
+        comments.forEach(comment -> comment.setCommentOfCurrentSession(
+                userId.equals(comment.getWriter())
+            )
+        );
 
         model.addAttribute("article", articleProfile);
         model.addAttribute("comments", comments);
         model.addAttribute("commentsAmount", comments.size());
-        model.addAttribute("isAuthor", isAuthor);
+        model.addAttribute("isArticleAuthor", isArticleAuthor);
         return "article/show";
     }
 

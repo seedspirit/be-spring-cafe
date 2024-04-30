@@ -8,6 +8,7 @@ public class CommentPreviewDto {
     private final String writer;
     private final String content;
     private final LocalDateTime writtenTime;
+    private boolean isCommentOfCurrentSession;
     private final String TIME_FORMATTING_PATTERN = "yyyy년 MM월 dd일 HH:mm";
 
     public CommentPreviewDto(long sequence, String writer, String content, LocalDateTime writtenTime) {
@@ -31,5 +32,13 @@ public class CommentPreviewDto {
 
     public String getFormattedWrittenTime() {
         return writtenTime.format(DateTimeFormatter.ofPattern(TIME_FORMATTING_PATTERN));
+    }
+
+    public void setCommentOfCurrentSession(boolean commentOfCurrentSession) {
+        isCommentOfCurrentSession = commentOfCurrentSession;
+    }
+
+    public boolean isCommentOfCurrentSession() {
+        return isCommentOfCurrentSession;
     }
 }

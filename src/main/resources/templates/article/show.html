@@ -43,13 +43,23 @@
                                             {{formattedWrittenTime}}
                                         </p>
                                     </div>
+                                    {{#isCommentOfCurrentSession}}
+                                    <ul style="display: flex; justify-content: flex-start;">
+                                        <li style="margin-right: 10px; margin-top: 10px; margin-left: auto;">
+                                                <button>삭제하기</button>
+                                        </li>
+                                        <li style="margin-right: 10px; margin-top: 10px">
+                                            <button>수정하기</button>
+                                        </li>
+                                    </ul>
+                                    {{/isCommentOfCurrentSession}}
                                 </article>
                                 {{/comments}}
                                 {{>layout/comment_form}}
                             </div>
                         </div>
                     </div>
-                    {{#isAuthor}}
+                    {{#isArticleAuthor}}
                     <ul style="display: flex; list-style: none; float: right; padding: 0">
                         <li style="margin-right: 10px; margin-top: 10px">
                             <div class="post-btn-container">
@@ -64,7 +74,7 @@
                             </div>
                         </li>
                     </ul>
-                    {{/isAuthor}}
+                    {{/isArticleAuthor}}
                 </div>
             </div>
         </div>
