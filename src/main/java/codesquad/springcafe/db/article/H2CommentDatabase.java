@@ -1,5 +1,6 @@
 package codesquad.springcafe.db.article;
 
+import codesquad.springcafe.model.article.dto.ArticleProfileDto;
 import codesquad.springcafe.model.comment.CommentPreviewDto;
 import codesquad.springcafe.model.comment.CommentCreationDto;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +11,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class H2CommentDatabase implements CommentDatabase {
 
@@ -51,6 +53,28 @@ public class H2CommentDatabase implements CommentDatabase {
 
     @Override
     public void delete(long sequence) {
+        String sql = "update comments set is_deleted = true where sequence = ?";
+        jdbcTemplate.update(sql, sequence);
+    }
 
+    @Override
+    public Optional<CommentPreviewDto> findCommentBySequence(long sequence) {
+        String sql = """
+                select sequence, writer, content, written_time
+                from comments
+                where sequence = ?;
+                """;
+        return jdbcTemplate.query(
+                sql, new Object[]{sequence}, rs -> {
+                    if(rs.next()){
+                        return Optional.of(new CommentPreviewDto(
+                                sequence,
+                                rs.getString("writer"),
+                                rs.getString("content"),
+                                rs.getTimestamp("written_time").toLocalDateTime()
+                        ));
+                    }
+                    return Optional.empty();
+                });
     }
 }

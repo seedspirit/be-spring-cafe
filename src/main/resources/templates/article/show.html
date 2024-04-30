@@ -46,10 +46,7 @@
                                     {{#isCommentOfCurrentSession}}
                                     <ul style="display: flex; justify-content: flex-start;">
                                         <li style="margin-right: 10px; margin-top: 10px; margin-left: auto;">
-                                                <button>삭제하기</button>
-                                        </li>
-                                        <li style="margin-right: 10px; margin-top: 10px">
-                                            <button>수정하기</button>
+                                                <button onclick="requestCommentDeletion('{{sequence}}')">삭제하기</button>
                                         </li>
                                     </ul>
                                     {{/isCommentOfCurrentSession}}
@@ -92,6 +89,23 @@
                     window.location.href = httpRequest.responseText;
                 } else {
                     alert("삭제가 실패했습니다")
+                }
+            }
+        }
+        httpRequest.send();
+    }
+
+    function requestCommentDeletion(commentSequence) {
+        let httpRequest = new XMLHttpRequest();
+        httpRequest.open('DELETE', '/comment/delete/' + commentSequence, true);
+        httpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    alert("댓글이 성공적으로 삭제되었습니다")
+                    let targetElement = document.getElementById("comment-"+commentSequence)
+                    targetElement.remove();
+                } else {
+                    alert("댓글 삭제에 실패헀습니다")
                 }
             }
         }
