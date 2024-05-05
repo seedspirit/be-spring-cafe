@@ -1,5 +1,8 @@
 package codesquad.springcafe.model.article.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ArticleModificationDto {
 
     private final String title;
@@ -10,11 +13,4 @@ public class ArticleModificationDto {
         this.content = content;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
 }

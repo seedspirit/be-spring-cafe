@@ -1,8 +1,11 @@
 package codesquad.springcafe.model.article.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
 public class ArticlePreviewDto {
     private final long sequence;
     private final LocalDateTime publishTime;
@@ -19,28 +22,9 @@ public class ArticlePreviewDto {
         this.title = title;
     }
 
-    public long getSequence() {
-        return sequence;
-    }
-
-    public LocalDateTime getPublishTime() {
-        return publishTime;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
 
     public String getFormattedPublishTime(){
         return publishTime.format(DateTimeFormatter.ofPattern(TIME_FORMATTING_PATTERN));
-    }
-
-    public String getWriterNickname() {
-        return writerNickname;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
 }

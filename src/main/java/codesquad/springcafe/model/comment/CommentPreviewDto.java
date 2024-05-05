@@ -1,8 +1,13 @@
 package codesquad.springcafe.model.comment;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
+@Setter
 public class CommentPreviewDto {
     private final long sequence;
     private final String writer;
@@ -16,18 +21,6 @@ public class CommentPreviewDto {
         this.writer = writer;
         this.content = content;
         this.writtenTime = writtenTime;
-    }
-
-    public long getSequence() {
-        return sequence;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public String getContent() {
-        return content;
     }
 
     public String getFormattedWrittenTime() {

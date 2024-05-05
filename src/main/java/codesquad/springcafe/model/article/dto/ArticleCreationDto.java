@@ -1,9 +1,11 @@
 package codesquad.springcafe.model.article.dto;
 
 import codesquad.springcafe.model.article.Article;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ArticleCreationDto {
     private final String title;
     private final String content;
@@ -13,18 +15,6 @@ public class ArticleCreationDto {
         this.title = title;
         this.content = content;
         this.publishTime = LocalDateTime.now();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getPublishTime() {
-        return publishTime;
     }
 
     public Article toEntity(){

@@ -1,7 +1,9 @@
 package codesquad.springcafe.model.user.dto;
 
 import codesquad.springcafe.model.user.User;
+import lombok.Getter;
 
+@Getter
 public class UserCredentialDto {
     private final String userId;
     private final String password;
@@ -11,13 +13,6 @@ public class UserCredentialDto {
         this.password = password;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public User toEntity(){
         return new User(userId, password);

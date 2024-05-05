@@ -1,5 +1,10 @@
 package codesquad.springcafe.model.comment;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CommentCreationDto {
     private final long articleSequence;
     private String writer;
@@ -10,19 +15,4 @@ public class CommentCreationDto {
         this.content = content;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public long getArticleSequence() {
-        return articleSequence;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
 }

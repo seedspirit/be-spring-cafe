@@ -1,9 +1,11 @@
 package codesquad.springcafe.model.user.dto;
 
 import codesquad.springcafe.model.user.User;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class UserCreationDto {
     private final String userId;
     private final String nickname;
@@ -17,26 +19,6 @@ public class UserCreationDto {
         this.password = password;
         this.email = email;
         this.registerTime = LocalDateTime.now();
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getRegisterTime() {
-        return registerTime;
     }
 
     public User toEntity() {

@@ -1,10 +1,12 @@
 package codesquad.springcafe.model.user.dto;
 
 import codesquad.springcafe.model.user.User;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
 public class UserProfileDto {
 
     private final String userId;
@@ -18,22 +20,6 @@ public class UserProfileDto {
         this.nickname = nickname;
         this.email = email;
         this.registerTime = registerTime;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getRegisterTime() {
-        return registerTime;
     }
 
     public String getFormattedRegisterTime(){
