@@ -19,12 +19,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static codesquad.springcafe.controller.LoginController.LOGIN_SESSION_NAME;
 
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
+    private final AtomicLong sequenceGenerator;
     private final ArticleDatabase articleDatabase;
     private final CommentDatabase commentDatabase;
 
@@ -32,6 +34,7 @@ public class ArticleController {
     public ArticleController(ArticleDatabase articleDatabase, CommentDatabase commentDatabase){
         this.articleDatabase = articleDatabase;
         this.commentDatabase = commentDatabase;
+        this.sequenceGenerator = new AtomicLong();
     }
 
     @GetMapping("/add")
@@ -42,7 +45,7 @@ public class ArticleController {
     @PostMapping("/add")
     public String createArticle(@ModelAttribute ArticleCreationDto articleCreationDto, HttpSession session) {
         Article article = articleCreationDto.toEntity();
-        article.setSequence();
+        article.setSequence(sequenceGenerator.incrementAndGet());
         article.setWriter((String) session.getAttribute(LOGIN_SESSION_NAME));
         articleDatabase.addArticle(article);
         return "redirect:/";

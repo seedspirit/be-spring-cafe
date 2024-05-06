@@ -1,8 +1,13 @@
 package codesquad.springcafe.model.article;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Getter
+@Setter
 public class Article {
     private final AtomicLong sequenceFactory = new AtomicLong();
     private long sequence;
@@ -21,45 +26,5 @@ public class Article {
         this.publishTime = publishTime;
         this.title = title;
         this.content = content;
-    }
-
-    public long getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(){
-        this.sequence = sequenceFactory.incrementAndGet();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer){
-        this.writer = writer;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public LocalDateTime getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(LocalDateTime publishTime) {
-        this.publishTime = publishTime;
     }
 }
